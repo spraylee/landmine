@@ -3,8 +3,8 @@
     <div
       class="cell-list"
       :style="{
-        gridTemplateRows: `repeat(${landmine.size.width}, 1fr)`,
-        gridTemplateColumns: `repeat(${landmine.size.width}, 1fr)`
+        gridTemplateRows: `repeat(${setting.size.current.width}, 1fr)`,
+        gridTemplateColumns: `repeat(${setting.size.current.height}, 1fr)`
       }"
     >
       <template v-for="line in landmine.table">
@@ -32,6 +32,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      setting
       // landmine: this.data as Landmine
     }
   },
@@ -45,7 +46,13 @@ export default Vue.extend({
       }
     },
     dig(item: Cell) {
-      if (!item.isOpen) item.dig()
+      if (
+        !item.isOpen &&
+        !this.landmine.isDig &&
+        !this.landmine.isBoom &&
+        !this.landmine.isWin
+      )
+        item.dig()
     }
   }
 })
@@ -65,16 +72,28 @@ export default Vue.extend({
     background-color: #999;
     padding: 1px;
     .cell {
-      background-color: #ddd;
+      // background-color: #ddd;
+      background-color: #ececec;
       display: flex;
       align-items: center;
       justify-content: center;
+      border: 3px solid #d8d8d8;
       &.open {
         background-color: #fff;
+        border: none;
       }
       &.boom {
-        background-color: rgb(214, 110, 110);
+        background-color: rgb(240, 188, 188);
+        border: none;
       }
+    }
+  }
+}
+@media (max-width: 600px) {
+  .ui-table {
+    .cell-list {
+      width: 95vmin;
+      height: 95vmin;
     }
   }
 }

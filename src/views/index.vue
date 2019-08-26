@@ -1,6 +1,11 @@
 <template>
   <div class="page">
-    <ui-boom :value="core.landmine.isBoom" @restart="core.landmine.restart()"></ui-boom>
+    <ui-boom
+      :value="core.landmine.isBoom || core.landmine.isWin"
+      :type="core.landmine.isWin ? 'win' : 'boom'"
+      @restart="core.landmine.restart()"
+      @changeMode="i => core.setting.size.change(i)"
+    ></ui-boom>
     <ui-table :landmine="core.landmine"></ui-table>
   </div>
 </template>
